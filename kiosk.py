@@ -1,4 +1,4 @@
-# 주문 할 때마다 주문 상황을 디스플레이
+# 주문 상황 디스플레이가 부적절함. 수정 필요
 
 menus = [["아이스 아메리카노", 0], ["카페 라떼", 0], ["유자차", 0], ["자바칩 프라푸치노", 0]]  # [[메뉴, 수량], ...]
 prices = [2000, 2500, 2400, 7000]
@@ -13,16 +13,20 @@ for _ in range(amount):
     menu = input(f"{menu_lists}: ")
     if menu == "1":
         menus[0][1] = menus[0][1] + 1
-        print(f"{menus[0][0]} {menus[0][1]}개 주문...")
+        print(f"{menus[0][0]} {menus[0][1]}잔 주문...")
+        print(f"소계 : {(prices[0] * menus[0][1]) + (prices[1] * menus[1][1]) + (prices[2] * menus[2][1]) + (prices[3] * menus[3][1])}원")
     elif menu == "2":
         menus[1][1] = menus[1][1] + 1
-        print(f"{menus[1][0]} {menus[1][1]}개 주문...")
+        print(f"{menus[1][0]} {menus[1][1]}잔 주문...")
+        print(f"소계 : {(prices[0] * menus[0][1]) + (prices[1] * menus[1][1]) + (prices[2] * menus[2][1]) + (prices[3] * menus[3][1])}원")
     elif menu == "3":
         menus[2][1] = menus[2][1] + 1
-        print(f"{menus[2][0]} {menus[2][1]}개 주문...")
+        print(f"{menus[2][0]} {menus[2][1]}잔 주문...")
+        print(f"소계 : {(prices[0] * menus[0][1]) + (prices[1] * menus[1][1]) + (prices[2] * menus[2][1]) + (prices[3] * menus[3][1])}원")
     elif menu == "4":
         menus[3][1] = menus[3][1] + 1
-        print(f"{menus[3][0]} {menus[3][1]}개 주문...")
+        print(f"{menus[3][0]} {menus[3][1]}잔 주문...")
+        print(f"소계 : {(prices[0] * menus[0][1]) + (prices[1] * menus[1][1]) + (prices[2] * menus[2][1]) + (prices[3] * menus[3][1])}원")
     else:
         print("잘못된 주문입니다")
 
