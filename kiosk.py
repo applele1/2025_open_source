@@ -2,7 +2,9 @@
 
 def select_menu(i):
     """
-    1)메뉴 선택 시
+    1) 메뉴 선택 시 해당 메뉴 중간 디스플레이
+    2) 선택한 메뉴 수량 업데이트
+    3) 소계 기능
     :param i:
     :return:
     """
@@ -15,6 +17,10 @@ def select_menu(i):
 
 
 def print_receipt():
+    """
+    영수증 출력 기능
+    :return: 없음
+    """
     print("=" * 38)
     total_price = 0
     for j in range(len(menus)):
@@ -28,10 +34,14 @@ def get_ticket_number():
     번호표 기능 (파일 입출력)
     :return: 번호
     """
-    with open("ticket.txt", "r") as fp:
-        #print(fp.read())
-        number = int(fp.read()) + 1
-        #print(number)
+    try:
+        with open("ticket.txt", "r") as fp:
+            number = int(fp.read())
+    except FileNotFoundError:
+        number = 0
+
+    number = number + 1
+
     with open("ticket.txt", "w") as fp:
         fp.write(str(number))
 
