@@ -1,31 +1,28 @@
-# Dictionary 적용 (prices, amounts)
+# 영수증 코드 업데이트 (딕셔너리)
 
 def select_menu(m):
-    #menus[i][1] = menus[i][1] + 1
     amounts[m] = amounts[m] + 1
-    #print(f"{menus[i][0]} {menus[i][1]}잔 주문...")
     print(f"{m} {amounts[m]}잔 주문...")
     subtotal = 0
-    #for j in range(len(menus)):
     for menu, price in prices.items():
-        #subtotal = subtotal + (prices[j] * menus[j][1])
         subtotal = subtotal + (price * amounts[menu])
     print(f"소계 : {subtotal}")
 
 
-# def print_receipt():
-#     print("=" * 38)
-#     # print("품명\n단가 / 수량 / 금액")
-#     total_price = 0
-#     for j in range(len(menus)):
-#         if menus[j][1] > 0:  # 각 메뉴들의 수량이 1 이상이면
-#             print(f"품명: {menus[j][0]}\n\t단가: {prices[j]} / 수량: {menus[j][1]:2} / 금액: {menus[j][1] * prices[j]:6}")
-#             total_price = total_price + (menus[j][1] * prices[j])  # 가격 리스트에서 가격 추출해서 합산
-#     print(f"총 금액은 {total_price}원 입니다.")
+def print_receipt():
+    print("=" * 38)
+    total_price = 0
+    #for j in range(len(menus)):
+    for menu, amount in amounts.items():
+        #if menus[j][1] > 0:  # 각 메뉴들의 수량이 1 이상이면
+        if amount > 0:  # 각 메뉴들의 수량이 1 이상이면
+            #print(f"품명: {menus[j][0]}\n\t단가: {prices[j]} / 수량: {menus[j][1]:2} / 금액: {menus[j][1] * prices[j]:6}")
+            print(f"품명: {menu}\n\t단가: {prices[menu]} / 수량: {amount:2} / 금액: {amount * prices[menu]:6}")
+            #total_price = total_price + (menus[j][1] * prices[j])  # 가격 리스트에서 가격 추출해서 합산
+            total_price = total_price + (amount * prices[menu])
+    print(f"총 금액은 {total_price}원 입니다.")
 
 
-# menus = [["아이스 아메리카노", 0], ["카페 라떼", 0], ["유자차", 0], ["자바칩 프라푸치노", 0]]  # [[메뉴, 수량], ...]
-# prices = [2000, 2500, 2400, 7000]
 prices = {
     'Ice Americano': 2000,
     'Caffe Latte': 2500,
@@ -38,7 +35,6 @@ amounts = {
     'Citron Tea': 0,
     'Java Chip Frappuccino': 0
 }
-#print(len(amounts), len(prices))
 
 menu_lists = ""
 for i, m in enumerate(amounts.keys()):  # 인덱스 및 메뉴 이름 추출
@@ -60,6 +56,6 @@ while True:
         break
     else:
         print("잘못된 주문입니다")
-#
-#
-# print_receipt()
+
+
+print_receipt()
