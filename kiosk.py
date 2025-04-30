@@ -1,6 +1,13 @@
-# 번호표 (ticket.txt)
+# 16번 커피 키오스크 예제를 리스트 하나로 통합
 
 def select_menu(i):
+    """
+    1) 메뉴 선택 시 해당 메뉴 중간 디스플레이
+    2) 선택한 메뉴 수량 업데이트
+    3) 소계 기능
+    :param i: 선택한 메뉴 - 1
+    :return: 없음
+    """
     menus[i][1] = menus[i][1] + 1
     print(f"{menus[i][0]} {menus[i][1]}잔 주문...")
     subtotal = 0
@@ -10,57 +17,52 @@ def select_menu(i):
 
 
 def print_receipt():
+    """
+    영수증 출력 기능
+    :return: 없음
+    """
     print("=" * 38)
     total_price = 0
-    lines = list()  # 영수증에 출력될 내용(문자열) 저장
-    with open("receipt.txt", "w") as fp:
-        for j in range(len(menus)):
-            if menus[j][1] > 0:  # 각 메뉴들의 수량이 1 이상이면
-                line = f"품명: {menus[j][0]}\n\t단가: {menus[j][2]} / 수량: {menus[j][1]:2} / 금액: {menus[j][1] * menus[j][2]:6}\n"
-                lines.append(line)
-                total_price = total_price + (menus[j][1] * menus[j][2])  # 가격 리스트에서 가격 추출해서 합산
-        lines.append(f"총 금액은 {total_price}원 입니다.\n")
+    for j in range(len(menus)):
+        if menus[j][1] > 0:  # 각 메뉴들의 수량이 1 이상이면
+            print(f"품명: {menus[j][0]}\n\t단가: {menus[j][2]} / 수량: {menus[j][1]:2} / 금액: {menus[j][1] * menus[j][2]:6}")
+            total_price = total_price + (menus[j][1] * menus[j][2])  # 가격 리스트에서 가격 추출해서 합산
+    print(f"총 금액은 {total_price}원 입니다.")
 
 
-        receipt = input(f"1) 영수증 출력  2) 영수증 미출력 : ")
-        if receipt == "1":
-            print(''.join(lines))
-            #fp.write(lines)  # error not list must be str
-            fp.write(''.join(lines))
-        else:
-            print(''.join(lines))
-            # ['품명: 아이스 아메리카노\n\t단가: 2000 / 수량:  1 / 금액:   2000\n', '품명: 자바칩 프라푸치노\n\t단가: 7000 / 수량:  2 / 금액:  14000\n', '총 금액은 16000원 입니다.\n']
+def get_ticket_number():
+    """
+    번호표 기능 (파일 입출력)
+    :return: 번호
+    """
+    try:
+        with open("ticket.txt", "r") as fp:
+            number = int(fp.read())
+    except FileNotFoundError:
+        number = 0
+
+    number = number + 1
+
+    with open("ticket.txt", "w") as fp:
+        fp.write(str(number))
+
+    return number
 
 
 menus = [["아이스 아메리카노", 0, 2000], ["카페 라떼", 0, 2500], ["유자차", 0, 2400], ["자바칩 프라푸치노", 0, 7000]]  # [[메뉴, 수량, 단가], ...]
-# menus = [
-#     ["아이스 아메리카노", 0, 2000],
-#     ["카페 라떼", 0, 2500]
-# ]  # [[메뉴, 수량, 단가], ...]
+# prices = [2000, 2500, 2400, 7000]
 
-menu_lists = ""
-for i in range(len(menus)):
-    menu_lists = menu_lists + f"{i+1}) {menus[i][0]} "
-menu_lists = menu_lists + f"{len(menus)+1}) 주문 종료 : "
+menu_lists = "".join([f"{i + 1}) {menus[i][0]} " for i in range(len(menus))])
+menu_lists = menu_lists + f"{len(menus) + 1}) 주문 종료 : "
 
 while True:
-    #menu = input(f"{menu_lists}{len(menus)+1}) 주문 종료 : ")
     menu = input(menu_lists)
     if 0 < int(menu) <= len(menus):  # 1 ~ 4
-        select_menu(int(menu)-1)
-    #elif menu == "5":
-    #elif menu == len(menus)+1:  # menu는 str, 우변의 값은 int, type이 서로 달라 항상 False
-    elif menu == str(len(menus) + 1):  # 문자로 형변환
+        select_menu(int(menu) - 1)
+    elif menu == "5":
         print("주문을 종료합니다")
         break
     else:
         print("잘못된 주문입니다")
 
-
 print_receipt()
-with open("ticket.txt", "r") as fp1:
-    number = int(fp1.readlines()[0])
-    number = number + 1
-    print(f"번호표 : {number}")
-    with open("ticket.txt", "w") as fp2:
-        fp2.write(str(number))
